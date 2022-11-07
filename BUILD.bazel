@@ -1,0 +1,21 @@
+load("@rules_cc//cc:defs.bzl", "cc_library")
+
+package(default_visibility = ["//visibility:public"])
+
+cc_library(
+    name = "blah",
+    defines = ["BLAH_RENDERER_OPENGL", "BLAH_PLATFORM_SDL2"],
+    copts = ["/std:c++20"],
+    linkopts = ["-DEFAULTLIB:Shell32"],
+    strip_include_prefix = "include",
+    hdrs = glob(["include/**/*"]),
+    srcs = glob(["src/**/*"]),
+    deps = ["@SDL2"],
+)
+
+cc_binary(
+    name = "sample",
+    copts = ["/std:c++20"],
+    srcs = ["sample.cpp"],
+    deps = [":blah"],
+)
